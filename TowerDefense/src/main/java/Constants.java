@@ -1,7 +1,7 @@
 import java.awt.*;
 
 public class Constants {
-    public static String title = "Tower defence";
+    public static String title = "Tower defense";
     public static Dimension sizeFrame = new Dimension(1300,800);
 
     public static int blockSize = 64;
