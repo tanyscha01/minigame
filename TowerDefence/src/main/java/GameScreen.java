@@ -13,7 +13,7 @@ public class GameScreen extends JPanel implements Runnable{
     public Thread thread = new Thread(this);
     final static Logger logger = Logger.getLogger(GameScreen.class);
 
-    private Timer timer;
+    private Timer timerWaveWait;
     public static Room room;
     public static Load load;
     public static Store store;
@@ -36,6 +36,7 @@ public class GameScreen extends JPanel implements Runnable{
     public static int maxWave = 2;
     public static int maxLevel = 3;
     public static int winFrame = 0;
+    public static int levelWait = 3;
     public static boolean waveStartTime = false;
     public static int secondsWait = Constants.startWave;
 
@@ -54,17 +55,6 @@ public class GameScreen extends JPanel implements Runnable{
     private boolean isWaiting = false;
 
     public static Point mouseEvent = new Point(0,0);
-
-    private Timer timerWin = new Timer(2000,new ActionListener(){
-        public void actionPerformed(ActionEvent ev) {
-            if(isWaiting){
-                isWaiting = false;
-                timerWin.stop();
-            }else{
-                repaint();
-                isWaiting = true;
-            }
-        }});
 
     public GameScreen(){}
 
@@ -177,30 +167,32 @@ public class GameScreen extends JPanel implements Runnable{
                 }
             } else if(isWin){
                 if(winFrame >= winFrame){
-                    if(level > maxLevel){
-                        timerWin.start();
-                        System.exit(0);
-                    }else {
-                        isWin = false;
                         winFrame = 0;
                         killed = 0;
                         Constants.money += 20;
                         if(wave == maxWave)
                         {
+                            try {
+                                Thread.sleep(2000);
+                            }catch(Exception ex){}
+                            if(level == maxLevel){
+                                System.exit(0);
+                            }
                             level += 1;
                             wave = 0;
                             killed = 0;
                             towerID = -1;
                             tower = new Tower[100];
-                            timerWin.start();
+                            isWin = false;
                             define();
                         }else{
+                            isWin = false;
                             waveStartTime = true;
-                            timer=new Timer(1000,new ActionListener(){
+                            timerWaveWait =new Timer(1000,new ActionListener(){
                                                         public void actionPerformed(ActionEvent ev) {
                                                             repaint();
                                                             if(secondsWait == 0) {
-                                                                timer.stop();
+                                                                timerWaveWait.stop();
                                                                 repaint();
                                                                 waveStartTime = false;
                                                                 secondsWait = Constants.startWave;
@@ -211,9 +203,9 @@ public class GameScreen extends JPanel implements Runnable{
                                                                 secondsWait -= 1;
                                                             }
                                                         }});
-                            timer.start();
+                            timerWaveWait.start();
                         }
-                    }
+
                 }else{
                     winFrame += 1;
                 }
@@ -278,19 +270,19 @@ public class GameScreen extends JPanel implements Runnable{
             g2.setColor(new Color(240, 20,20));
             g2.fillRect(0,0,GameScreen.fieldWidth,GameScreen.fieldHeight);
             g2.setColor(new Color(255,255,255));
-            g2.setFont(new Font("Courier New", Font.BOLD, 14));
+            g2.setFont(new Font("Courier New", Font.BOLD, 16));
             g2.drawString("GAME OVER", GameScreen.fieldWidth/2 - 200, GameScreen.fieldHeight/2);
         }
 
         if(isWin && wave == maxWave){
-            //g.setColor(new Color(240,20,20));
+            g.setColor(new Color(20,134,0));
             g2.fillRect(0,0,getWidth(), getHeight());
-            g2.setColor(new Color(0,0,0));
-            g2.setFont(new Font("Courier New", Font.BOLD, 14));
+            g2.setColor(new Color(255,255,255));
+            g2.setFont(new Font("Courier New", Font.BOLD, 16));
             if(level == maxLevel){
-                g2.drawString("YOU WON !!!", 10, 20);
+                g2.drawString("YOU WON !!!", GameScreen.fieldWidth/2 - 200, GameScreen.fieldHeight/2);
             }else {
-                g2.drawString("YOU WON !!! Wait for the next level...", 10, 20);
+                g2.drawString("YOU WON !!! Wait for the next level...", GameScreen.fieldWidth/2 - 200, GameScreen.fieldHeight/2);
             }
         }
     }
