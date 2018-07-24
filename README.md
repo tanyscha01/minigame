@@ -1,5 +1,5 @@
-# repository
-It is a mini game of tower defence, where you need to demonstrate your creativity thinking to get victory of angry mobs. 
+# Tower Defense
+It is a mini game of tower defense, where you need to demonstrate your creativity thinking to get victory of angry mobs. 
 The mobs want you to be defeated by them. 
 In the game you have limited count of money and you can use it for buying the towers from the store. 
 The store have 4 types of towers and they have different abillities. 
