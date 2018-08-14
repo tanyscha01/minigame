@@ -1,0 +1,7 @@
+#exclude intelij files
+.idea/
+target/
+build-idea/
+*.iml
+*.ipr
+*.iws
