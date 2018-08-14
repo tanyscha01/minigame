@@ -5,3 +5,25 @@ build-idea/
 *.iml
 *.ipr
 *.iws
+
+# eclipse files
+.project
+.classpath
+.settings
+build-eclipse/
+
+# netbeans files
+nb-configuration.xml
+nbactions.xml
+
+# gradle stuff
+.gradle/
+build/
+
+# vscode stuff
+.vscode/
+
+# testing stuff
+**/.local*
+.vagrant/
+/logs/
